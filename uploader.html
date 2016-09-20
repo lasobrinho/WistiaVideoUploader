@@ -1,0 +1,37 @@
+<div class='row'>
+    <div class='col-sm-12'>
+        <h1>Wistia Video Uploader</h1>
+<hr/>
+<p>Select a video file to upload: </p>
+        <form id='upload' method='post' action='https://upload.wistia.com' enctype='multipart/form-data' style='margin-bottom: 20px'>
+            <input type='hidden' name='api_password' value='a4b54dcf5f889112500769ddb0c4723a5a72feaaea30428641031a0f54102593' />
+            <input type='hidden' name='project_id' value='gd2bwub48e' />
+            <input type='file' id='file' name='files[]' style='display: none;' multiple />
+            <input type='button' id='file_aux' value='Select File' class='btn btn-primary' />
+        </form>
+        <span id='file_name'>No video selected.</span>
+        <span id='progress_status' style='padding-left: 40px'></span>
+        <div class='progress' style='margin-top: 10px; margin-bottom: 25px;'>
+            <div class='progress-bar' role='progressbar' aria-valuenow='0'
+aria-valuemin='0' aria-valuemax='100' style='width: 0%;'></div>
+        </div>
+    </div> 
+</div>
+<hr/>
+<div class='row'>
+    <div class='col-sm-4'>
+        <p>Uploaded Videos:</p>
+        <ul id='uploaded'>
+            <li id='li-no-video'>No videos uploaded yet.</li>
+        </ul>
+    </div>
+    <div class='col-sm-8'>
+        <p>Last video uploaded:</p>
+        <p id='last_video'>No videos uploaded yet.</p>
+        <!-- <div style='background-color: #111; height: 500px;'></div> -->
+        <iframe src=''
+                allowtransparency='true' frameborder='0' scrolling='no' class='wistia_embed'
+                name='wistia_embed' id='player' allowfullscreen mozallowfullscreen webkitallowfullscreen oallowfullscreen msallowfullscreen width='640' height='360'>
+        </iframe>
+    </div>
+</div>

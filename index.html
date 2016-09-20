@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <title>Wistia Video Uploader</title>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/uploader_style.css">        
+    </head>
+
+    <body ng-app='WistiaVideoUploader'>
+            
+        <div wistia-video-uploader class=container></div>
+
+        <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+        <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+        <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js'></script>
+        <script src='js/vendor/jquery.ui.widget.js'></script>
+        <script src='js/jquery.iframe-transport.js'></script>
+        <script src='js/jquery.fileupload.js'></script>
+        <script src='https://fast.wistia.net/assets/external/iframe-api-v1.js'></script>
+        <script>
+            angular.module('WistiaVideoUploader', []).directive('wistiaVideoUploader', function() {
+                return {
+                    templateUrl: 'uploader.html',
+                    link: function(scope, iElement, attrs) {
+                        $(function() {
+                            $('#file').change( function () {
+                                $('#file_name').html(this.value.substring(12));
+                            });
+                            $('#file_aux').click( function() {
+                                $('#file').click();
+                            });
+                        });
+                        $('#upload').fileupload({
+                            dataType: 'json',
+                            done: function (e, data) {
+                                $('#li-no-video').remove();
+                                $('<li>' + data.result.name + '</li>').appendTo('#uploaded');                    
+                                $('#progress_status').html(' Upload Finished');
+                                $('#last_video').html(data.result.name);
+                                console.log(e);
+                                console.log(data);
+                                $('#player').attr('src', 'https://fast.wistia.net/embed/iframe/' + data.result.hashed_id + '?videoFoam=true');
+                                $('#file_aux').removeAttr('disabled');
+                            },
+                            send: function (e, data) {
+                                $('#file_aux').attr('disabled', '');
+                            },
+                            progressall: function (e, data) {
+                                var progress = parseInt(data.loaded / data.total * 100, 10);
+                                $('.progress-bar').attr('aria-valuenow', progress);
+                                $('.progress-bar').css('width', progress + '%');
+                                $('#progress_status').html(' Uploading File: ' + progress + '%');
+                            }
+                        });    
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
